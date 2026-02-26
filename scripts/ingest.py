@@ -48,10 +48,14 @@ def extract_pdf_text(pdf_path):
         print(f"  📄 Extracting text from PDF...")
         text = ""
         reader = PdfReader(pdf_path)
+        print(f"    Pages to extract: {len(reader.pages)}")
         for page_num, page in enumerate(reader.pages):
+            if page_num % 10 == 0:
+                print(f"    Extracting page {page_num}...")
             text += f"\n--- Page {page_num + 1} ---\n"
             text += page.extract_text()
         
+        print(f"    Extraction complete: {len(text)} characters")
         if not text.strip():
             print("  ⚠️ PDF has no extractable text (may be image-based)")
             return None
@@ -59,6 +63,8 @@ def extract_pdf_text(pdf_path):
         return text
     except Exception as e:
         print(f"  ❌ PDF extraction error: {e}")
+        import traceback
+        traceback.print_exc()
         return None
 
 
@@ -116,6 +122,7 @@ def download_file(url, dest_dir):
 
 def chunk_text(text, size=CHUNK_SIZE, overlap=CHUNK_OVERLAP):
     """Split text into overlapping chunks."""
+    print(f"    chunk_text called with {len(text)} characters")
     if not text or len(text.strip()) < 50:
         return [text]
     
@@ -128,10 +135,16 @@ def chunk_text(text, size=CHUNK_SIZE, overlap=CHUNK_OVERLAP):
         chunk = text[start:end].strip()
         if chunk:
             chunks.append(chunk)
+        
+        # Move forward: if we're at the end or close to it, break
+        prev_start = start
         start = end - overlap
-        if start >= L:
+        
+        # Prevent infinite loop: ensure we always make progress
+        if start >= L or start <= prev_start:
             break
     
+    print(f"    chunk_text returning {len(chunks)} chunks")
     return chunks
 
 
@@ -204,27 +217,35 @@ def ingest_file(file_path, source_type='upload', title=None):
             return False
         
         # Insert document
+        print(f"  💾 Inserting into database...")
         c.execute('''
             INSERT INTO documents (source_type, source_path, title, content_type, full_text)
             VALUES (?, ?, ?, ?, ?)
         ''', (source_type, actual_path, title, content_type, full_text))
         
         doc_id = c.lastrowid
+        print(f"  ✓ Document inserted with ID {doc_id}")
         
         # Insert into FTS table
+        print(f"  📇 Inserting into FTS...")
         c.execute('INSERT INTO documents_fts VALUES (?, ?, ?)',
                   (doc_id, title, full_text))
+        print(f"  ✓ FTS indexed")
         
         # Create and insert chunks
+        print(f"  📦 Chunking text...")
         chunks = chunk_text(full_text)
         print(f"  📦 Creating {len(chunks)} chunks...")
         
         for i, chunk in enumerate(chunks):
+            if i % 50 == 0:
+                print(f"    Inserting chunk {i}/{len(chunks)}...")
             c.execute('''
                 INSERT INTO chunks (doc_id, chunk_order, chunk_text)
                 VALUES (?, ?, ?)
             ''', (doc_id, i, chunk))
         
+        print(f"  💾 Committing...")
         conn.commit()
         print(f"✓ Successfully ingested: {title} ({len(chunks)} chunks)")
         
