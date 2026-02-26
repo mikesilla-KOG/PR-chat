@@ -1,0 +1,195 @@
+```
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                                                                           ║
+║                         🚀 PR-CHAT - QUICK START 🚀                      ║
+║                                                                           ║
+║              AI-Powered Knowledge Base Search System Built!               ║
+║                                                                           ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+📦 WHAT'S INCLUDED
+─────────────────────────────────────────────────────────────────────────
+
+  ✅ Complete project scaffold
+  ✅ Streamlit web interface (500+ lines)
+  ✅ MP3 transcription (local Whisper)
+  ✅ PDF text extraction
+  ✅ Keyword search (SQLite FTS5)
+  ✅ Semantic search (FAISS)
+  ✅ AI chat with sources (OpenAI)
+  ✅ Full documentation (5 guides)
+  ✅ Automated setup script
+
+
+🎯 5-MINUTE SETUP
+─────────────────────────────────────────────────────────────────────────
+
+  1. RUN SETUP:
+     ./quickstart.sh
+
+  2. ADD DOCUMENTS:
+     python scripts/ingest.py your_file.mp3
+     python scripts/ingest.py your_file.pdf
+
+  3. BUILD INDEX:
+     python scripts/build_embeddings.py
+
+  4. RUN APP:
+     streamlit run app/streamlit_app.py
+
+  5. OPEN BROWSER:
+     http://localhost:8501
+
+
+📁 PROJECT STRUCTURE
+─────────────────────────────────────────────────────────────────────────
+
+  PR-chat/
+  ├── app/streamlit_app.py              ← Web interface
+  ├── scripts/
+  │   ├── setup_db.py                   ← Database setup
+  │   ├── ingest.py                     ← Process files
+  │   ├── build_embeddings.py           ← Search indexing
+  │   ├── demo.py                       ← Status check
+  │   ├── verify_deps.py                ← Verify setup
+  │   └── add_samples.py                ← Test data
+  ├── data/
+  │   ├── uploads/                      ← Your files
+  │   └── transcripts/                  ← Transcriptions
+  ├── requirements.txt                  ← Dependencies
+  ├── .env.example                      ← Configuration
+  ├── README.md                         ← Full guide
+  ├── WORKFLOW.md                       ← How to use
+  ├── QUICK_REFERENCE.md                ← CLI commands
+  ├── ARCHITECTURE.md                   ← How it works
+  ├── PROJECT_SUMMARY.md                ← This project
+  └── quickstart.sh                     ← Setup script
+
+
+🔍 THREE SEARCH MODES
+─────────────────────────────────────────────────────────────────────────
+
+  💬 ASK QUESTION
+     "What is this about?"
+     → AI finds relevant passages + generates answer
+     → Shows sources
+     (Requires: OpenAI key)
+
+  🔍 KEYWORD SEARCH
+     "Find 'prayer'"
+     → Fast full-text search
+     → Exact term matching
+     (No key needed)
+
+  🧠 SEMANTIC SEARCH
+     "Find similar content"
+     → Search by meaning, not words
+     → "How to pray?" finds prayer docs
+     (Requires: build_embeddings.py)
+
+
+📋 EXAMPLE WORKFLOW
+─────────────────────────────────────────────────────────────────────────
+
+  # Setup (one time)
+  ./quickstart.sh
+
+  # Add content
+  python scripts/ingest.py sermon.mp3 --title "Sunday Sermon"
+  python scripts/ingest.py bible.pdf --title "Scripture"
+  python scripts/ingest.py https://example.com/audio.mp3 --type url
+
+  # Build search
+  python scripts/build_embeddings.py
+
+  # Use it!
+  streamlit run app/streamlit_app.py
+
+  # Later: Add more
+  python scripts/ingest.py another_file.mp3
+  python scripts/build_embeddings.py
+
+
+⚙️ CONFIGURATION
+─────────────────────────────────────────────────────────────────────────
+
+  Edit .env to customize:
+  - OPENAI_API_KEY (optional, for AI chat)
+  - LOCAL_WHISPER_MODEL (tiny/base/small/medium/large)
+  - Database location, directories, etc.
+
+
+🆘 HELP & TROUBLESHOOTING
+─────────────────────────────────────────────────────────────────────────
+
+  Check status:
+    python scripts/demo.py --stats
+
+  Verify dependencies:
+    python scripts/verify_deps.py
+
+  Add test data:
+    python scripts/add_samples.py
+
+  Read more:
+    - README.md (features)
+    - WORKFLOW.md (step-by-step)
+    - QUICK_REFERENCE.md (commands)
+    - ARCHITECTURE.md (how it works)
+
+
+💡 QUICK TIPS
+─────────────────────────────────────────────────────────────────────────
+
+  • Whisper is FREE and works OFFLINE
+  • Always run build_embeddings.py after adding documents
+  • Keyword search works instantly
+  • Semantic search finds by meaning
+  • AI chat requires OpenAI key (optional)
+  • All data stored locally in pr_chat.db
+
+
+🚀 NEXT STEPS
+─────────────────────────────────────────────────────────────────────────
+
+  1. Run: ./quickstart.sh
+  2. Read: README.md (5 min read)
+  3. Try: python scripts/add_samples.py
+  4. Run: streamlit run app/streamlit_app.py
+  5. Search! Try all three modes
+  6. Add your own content
+
+
+📬 FILES GUIDE
+─────────────────────────────────────────────────────────────────────────
+
+  Getting Started
+  ├── README.md              - Feature overview
+  ├── QUICK_REFERENCE.md     - CLI commands
+  └── PROJECT_SUMMARY.md     - Project details
+
+  How To
+  ├── WORKFLOW.md            - Step-by-step guide
+  └── ARCHITECTURE.md        - How it works
+
+  Run
+  ├── quickstart.sh          - Automated setup
+  └── app/streamlit_app.py   - Web interface
+
+  Scripts
+  ├── setup_db.py            - Initialize
+  ├── ingest.py              - Add files
+  ├── build_embeddings.py    - Index search
+  └── demo.py                - Check status
+
+
+═══════════════════════════════════════════════════════════════════════════
+
+              Ready? Run: ./quickstart.sh
+
+              Questions? Check README.md
+
+              Need help? See WORKFLOW.md
+
+═══════════════════════════════════════════════════════════════════════════
+```
